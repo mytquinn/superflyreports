@@ -1,0 +1,4 @@
+name: superflyreports
+dependencies:
+  browser: any
+  bootjack: any
