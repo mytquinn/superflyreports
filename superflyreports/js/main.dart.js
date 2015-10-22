@@ -13361,7 +13361,7 @@
         return s.add$1(0, this._captured_value_0);
       }
     }
-  }], ["", "../main.dart",, F, {
+  }], ["", "../dart/main.dart",, F, {
     "^": "",
     main: [function() {
       var $async$goto = 0, $async$completer = new P.Completer_Completer$sync(), $async$handler = 1, $async$currentError, btnListeners, t1, btnListener, $async$temp1, $async$temp2, $async$temp3, $async$temp4;
@@ -13405,7 +13405,9 @@
               $async$temp1 = F;
               $async$temp1.requestBody("views/about.html");
               $async$temp1 = F;
-              $async$temp1.addModal("signup", "signupModal", "signup.html");
+              $async$temp1.addModal("signup", "signupModal", "views/signup.html");
+              $async$temp1 = F;
+              $async$temp1.addModal("signin", "signinModal", "views/signin.html");
               $async$temp1 = W;
               $async$temp1 = $async$temp1;
               $async$temp2 = document;
