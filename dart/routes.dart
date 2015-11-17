@@ -81,11 +81,11 @@ setRoute(RouteEvent e) {
 // Onclick to add form to panel from HTML
 addPanel(String panelId, String page) async {
   // Add new element to panel.
-  Element panelDiv = querySelector('#' + panelId);
+  Element panelDiv = querySelector('#${panelId}');
   String panelHtml = await HttpRequest.getString(page);
   await panelDiv.appendHtml(panelHtml, treeSanitizer: NodeTreeSanitizer.trusted);
   // Add functionality for button to remove panel
-  Element newPanel = querySelector('#panel-info');
+  Element newPanel = panelDiv.querySelector('#panel-info');
   newPanel.id = newPanel.id + "_" + panelDiv.id  + "_" + (panelCount).toString();
   Element newRemove = querySelector('#remove-panel');
   newRemove.id = newRemove.id + "_" + panelDiv.id + "_" + (panelCount++).toString();
