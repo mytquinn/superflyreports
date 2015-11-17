@@ -1,2 +1,142 @@
-<title>Super Fly Reports  - Journal</title>
-Journal Page
+
+<form role="form" id="journalEntry">
+    <div class="panel-group">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Tell us about your trip.
+            </div>
+            <div class="panel-body">
+                <div class="col-xs-12 col-md-4 col-lg-4" >
+                    <div class="input-group">
+                        <span class="input-group-addon" id="state_select">State:</span>
+                        <select class="form-control" aria-describedby="state-select" datasrc="state_type.name" datafld="journal_entries.state_id">
+                            <option value="">Make a selection</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-8 col-lg-8" >
+                    <div class="input-group">
+                        <span class="input-group-addon" id="location">Fishing Spot:</span>
+                        <input type="text" class="form-control" aria-describedby="location" datafld="journal_entries.location_id">
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-6" >
+                    <div class="input-group">
+                        <span class="input-group-addon" id="date">Date of Trip:</span>
+                        <input type="date" class="form-control" aria-describedby="date" datafld="journal_entries.date">
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-6" >
+                    <div class="input-group">
+                        <span class="input-group-addon" id="time">Time of Day:</span>
+                        <select class="form-control" aria-describedby="time" datasrc="time_of_day_type.daytime" datafld="journal_entries.time_of_day_id">
+                            <option value="">Make a selection</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-12 col-lg-12" >
+                    <div class="input-group">
+                        <span class="input-group-addon" id="comment">Comments:</span>
+                        <textarea type="text" class="form-control" aria-describedby="comment" datafld="journal_entries.comment" style="resize:vertical;" ></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                How was the the weather?
+            </div>
+            <div class="panel-body">
+
+                <div class="col-xs-12 col-md-6 col-lg-4" >
+                    <div class="input-group">
+                        <span class="input-group-addon" id="weather_condition">Conditions:</span>
+                        <select class="form-control" aria-describedby="weather-condition" datasrc="weather_type.conditions" datafld="journal_entries.weather_id">
+                            <option value="">Make a selection</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-4" >
+                    <div class="input-group">
+                        <span class="input-group-addon" id="precipitation">Precipitation:</span>
+                        <select class="form-control" aria-describedby="precipitation" datasrc="precip_type.precipitation" datafld="journal_entries.precip_id">
+                            <option value="">Make a selection</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-4" >
+                    <div class="input-group">
+                        <span class="input-group-addon" id="air_temp">Air Temp:</span>
+                        <input type="number" class="form-control" aria-describedby="air_temp" datafld="journal_entries.air_temp">
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-6" >
+                    <div class="input-group">
+                        <span class="input-group-addon" id="water_temp">Water Temp:</span>
+                        <input type="number" class="form-control" aria-describedby="water_temp" datafld="journal_entries.water_temp">
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-6" >
+                    <div class="input-group">
+                        <span class="input-group-addon" id="water_clarity">Water Clarity:</span>
+                        <select class="form-control" aria-describedby="water_clarity" datasrc="water_clarity_type.clarity" datafld="journal_entries.clarity_id">
+                            <option value="">Make a selection</optionvalue>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-6" >
+                    <div class="input-group">
+                        <span class="input-group-addon" id="wind_speed">Wind Speed:</span>
+                        <input type="number" class="form-control" aria-describedby="wind_speed" datafld="journal_entries.wind_speed">
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6 col-lg-6" >
+                    <div class="input-group">
+                        <span class="input-group-addon" id="wind_direction">Wind Direction:</span>
+                        <select class="form-control" aria-describedby="water_direction" datasrc="wind_direction_type.direction" datafld="journal_entries.wind_direction_id">
+                            <option value="">Make a selection</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                What did you catch?
+            </div>
+
+            <div class="panel panel-primary" style="margin: 10px">
+                <div class="panel-body" >
+                    Add trophy catches:
+                    <div class="pull-right">
+                        <button type="button" class="button btn-primary" id="add-trophy-button">+</button>
+                    </div>
+                    <div id="trophy-panel" style="padding-top: 15px;">
+
+                    </div>
+
+                </div>
+                <div class="panel-footer">
+                    Click the + sign to add information about your trophy catches.
+                </div>
+            </div>
+
+            <div class="panel panel-primary" style="margin: 10px">
+                <div class="panel-body" >
+                    Add general catches:
+                    <div class="pull-right">
+                        <button type="button" class="button btn-primary" id="add-fish-button">+</button>
+                    </div>
+                    <div id="fish-panel" style="padding-top: 15px;"></div>
+                </div>
+
+                <div class="panel-footer">
+                    Click the + sign to add information on the fish you caught.
+                </div>
+            </div>
+        </div>
+
+        <button type="button"  class="btn btn-primary btn-lg pull-right" style="margin-top: 10px;" id="journal_submit">Submit</button>
+    </div>
+</form>

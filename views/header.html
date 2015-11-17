@@ -1,22 +1,52 @@
- <div class="page-header" style="background: url('images/header.jpg'); background-size: cover;">
-	  <h1>Header</h1>
-	  <nav class="navbar">
-        <div class="container-fluid" style="padding-right: 30px">
-	  <div class="navbar-header">
-		  <a class="navbar-brand navbar-left" href="#">Super Fly Reports</a>
-	</div>
-	    <div class="btn-group" role="group">
-		 <button type="button" class="btn btn-primary navbar-btn" id='home'>Home</button>
-		 <button type="button" class="btn btn-primary navbar-btn" id='about'>About</button>
-		 <button type="button" class="btn btn-primary navbar-btn" id='journal'>Add Entry</button>
-		 <button type="button" class="btn btn-primary navbar-btn" id='reports'>Reports</button>
-	    </div>
-	    <p class="navbar-text navbar-right">
-	        <a href="#" class="navbar-link" id="signin">Sign in</a>
-	            &nbsp|&nbsp
-	        <a href="#" class="navbar-link" id="signup">Sign up</a>
-	    </p>
-	 </div>
-	 </nav>
-  </div>
+<div class="page-header"  id="header-div" style="background: url('/images/header.jpg') center; border-bottom: 5px solid #867D76;
+                                                 background-size: cover; margin: 50px 0 10px;">
+<img src="/images/title.png" class="center-block img-responsive " id="title-image">
+	<nav class="navbar navbar-default navbar-fixed-top" id="top-navbar">
+	<div class="container-fluid" >
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse"
+                    aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="/">Home</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="navbar-collapse">
+
+			<ul class="nav navbar-nav">
+				<li><a href="/about" data-toggle="collapse" data-target="#navbar-collapse">About <span class="sr-only">(current)</span></a></li>
+
+				<li class="dropdown signed-in">
+					<a href="" class="dropdown-toggle" data-toggle="dropdown" role="button"
+					  id="journal-dropdown">Journal
+                        <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="/journal" data-toggle="collapse" data-target="#navbar-collapse">Add Entry</a></li>
+						<li><a href="/journal/view" data-toggle="collapse" data-target="#navbar-collapse">View Journal</a></li>
+					</ul>
+				</li>
+				<li><a href="/reports" data-toggle="collapse" data-target="#navbar-collapse">Reports</a></li>
+			</ul>
+			<div class="nav navbar-text navbar-right signed-out">
+				<a href="" class="navbar-link" id="signin">Sign in</a>
+				&nbsp;|&nbsp;
+				<a href="" class="navbar-link" id="signup">Sign up</a>
+				&nbsp;&nbsp;
+			</div>
+			<div class="nav navbar-text navbar-right signed-in">
+				<p> <a href="/profile" class="navbar-link" id="username"></a>&nbsp;signed in</p>
+				&nbsp;|&nbsp;
+				<a href="/signOut" class="navbar-link">Sign out</a>
+				&nbsp;&nbsp;
+			</div>
+
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container-fluid -->
+</nav>
+</div>
 

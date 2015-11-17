@@ -2,3 +2,6 @@ name: superflyreports
 dependencies:
   browser: any
   bootjack: any
+  route_hierarchical: any
+  dquery: any
+  http: any
