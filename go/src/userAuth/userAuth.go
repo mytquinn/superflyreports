@@ -1,19 +1,18 @@
 package userAuth
 
-import
-(
+import (
+	"config"
 	"crypto/rand"
-	"encoding/hex"
-	"net/http"
-	"strconv"
-	"log"
-	"github.com/astaxie/beego/session"
 	"database/sql"
+	"encoding/hex"
+	"github.com/astaxie/beego/session"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/sendgrid/sendgrid-go"
-	"time"
+	"log"
+	"net/http"
+	"strconv"
 	"strings"
-	"config"
+	"time"
 )
 
 var globalSessions *session.Manager
@@ -26,7 +25,6 @@ func DoSignin(w http.ResponseWriter, r *http.Request) {
 
 	var id int
 
-
 	if r.Method == "POST" {
 		// Handles login when it is hit as a post request
 		r.ParseForm()
@@ -34,7 +32,7 @@ func DoSignin(w http.ResponseWriter, r *http.Request) {
 		res := stmt.QueryRow(r.FormValue("username"), r.FormValue("password"))
 		err = res.Scan(&id)
 
-		if (err == nil) {
+		if err == nil {
 			sess, _ := globalSessions.SessionStart(w, r)
 			defer sess.SessionRelease(w)
 			setUserCookies(w, id, sess.SessionID())
@@ -56,10 +54,10 @@ func DoSignin(w http.ResponseWriter, r *http.Request) {
 		sessionIdCookie, err := r.Cookie("userSession_id")
 		if err == nil {
 			stmt, err := db.Prepare("select id, username from users where session_id=?")
-			res:= stmt.QueryRow(sessionIdCookie.Value)
+			res := stmt.QueryRow(sessionIdCookie.Value)
 			var username string
 			err = res.Scan(&id, &username)
-			if err == nil{
+			if err == nil {
 				if checkRemoteAddress(r, id) {
 					sess, _ := globalSessions.SessionStart(w, r)
 					defer sess.SessionRelease(w)
@@ -87,7 +85,7 @@ func DoSignin(w http.ResponseWriter, r *http.Request) {
 func addRemoteAddress(r *http.Request, user_id int) {
 	var addresses string
 	stmt, _ := db.Prepare("select remote_addr from users where id=?")
-	res:= stmt.QueryRow(user_id)
+	res := stmt.QueryRow(user_id)
 	err := res.Scan(&addresses)
 	newAddr := strings.Split(r.RemoteAddr, ":")[0]
 	if newAddr == "[" {
@@ -110,7 +108,7 @@ func addRemoteAddress(r *http.Request, user_id int) {
 func checkRemoteAddress(r *http.Request, user_id int) bool {
 	var addresses string
 	stmt, _ := db.Prepare("select remote_addr from users where id=?")
-	res:= stmt.QueryRow(user_id)
+	res := stmt.QueryRow(user_id)
 	err := res.Scan(&addresses)
 	currentAddr := strings.Split(r.RemoteAddr, ":")[0]
 	if currentAddr == "[" {
@@ -124,30 +122,29 @@ func checkRemoteAddress(r *http.Request, user_id int) bool {
 }
 
 // Writes session to user record for auto login
-func saveSession(w http.ResponseWriter, r *http.Request, sid string, user_id int){
-
+func saveSession(_ http.ResponseWriter, _ *http.Request, sid string, user_id int) {
 	stmt, err := db.Prepare("update users set session_id=? where id=?")
 	_, err = stmt.Exec(sid, user_id)
-	if err != nil  {
+	if err != nil {
 		log.Println("Update session_id failed: ", err)
 	}
 }
 
 // Sets cookies with user_id and session id to be used for auto login
-func setUserCookies(w http.ResponseWriter, id int, sessId string){
+func setUserCookies(w http.ResponseWriter, id int, sessId string) {
 	userIdCookie := http.Cookie{
-		Name : "user_id",
-		Value : strconv.Itoa(id),
-		Expires : time.Now().Add(30 * 24 * time.Hour),
+		Name:     "user_id",
+		Value:    strconv.Itoa(id),
+		Expires:  time.Now().Add(30 * 24 * time.Hour),
 		HttpOnly: false,
-		Path: "/",
+		Path:     "/",
 	}
 	userSessionCookie := http.Cookie{
-		Name : "userSession_id",
-		Value : sessId,
-		Expires : time.Now().Add(30 * 24 * time.Hour),
+		Name:     "userSession_id",
+		Value:    sessId,
+		Expires:  time.Now().Add(30 * 24 * time.Hour),
 		HttpOnly: false,
-		Path: "/",
+		Path:     "/",
 	}
 	http.SetCookie(w, &userIdCookie)
 	http.SetCookie(w, &userSessionCookie)
@@ -162,6 +159,7 @@ func DoSignup(w http.ResponseWriter, r *http.Request) {
 		log.Println("Could not successfully read from the system CSPRNG.")
 	}
 	validationKey := hex.EncodeToString(vKey)
+	log.Println(len(validationKey))
 	stmt, _ := db.Prepare("insert into signup(username, email, password, validationKey) values(?,?,?,?)")
 	_, err = stmt.Exec(r.FormValue("username"), r.FormValue("email"), r.FormValue("password"), validationKey)
 	if err != nil {
@@ -172,14 +170,14 @@ func DoSignup(w http.ResponseWriter, r *http.Request) {
 			res := stmt.QueryRow(r.FormValue("username"))
 			res.Scan(&validationKey)
 			sendVerification(r.FormValue("email"), validationKey)
-			http.Redirect(w, r, r.URL.Host + "/resendValidation", 302)
+			http.Redirect(w, r, r.URL.Host+"/resendValidation", 302)
 		} else {
 			log.Print("Error creating signup record")
 			log.Println(err)
 		}
 	} else {
 		sendVerification(r.FormValue("email"), validationKey)
-		http.Redirect(w, r, r.URL.Host + "/validationSent", 302)
+		http.Redirect(w, r, r.URL.Host+"/validationSent", 302)
 	}
 }
 
@@ -192,7 +190,7 @@ func sendVerification(email string, validationKey string) {
 	message.SetText("Please follow or copy this link to verify your new account:" + myConfig.Sg_emailLink + validationKey)
 	message.SetHTML(`<html><body>Please follow or copy this link to verify your new account:
                       <a href='` + myConfig.Sg_emailLink + validationKey +
-	`'>`+ myConfig.Sg_emailLink + validationKey + `</a></body></html>`)
+		`'>` + myConfig.Sg_emailLink + validationKey + `</a></body></html>`)
 	message.SetFrom("account_verify@superfly.com")
 	if err := sg.Send(message); err == nil {
 		log.Println("Email sent to :", email)
@@ -213,7 +211,7 @@ func VerifyEmail(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Redirect(w, r, "/validationFailed", 302)
 	}
-
+	log.Println("Validating Email")
 	stmt, _ = db.Prepare("insert into users (username, email, password) values (?,?,?)")
 	row, err := stmt.Exec(username, email, password)
 	if err == nil {
@@ -235,12 +233,14 @@ func VerifyEmail(w http.ResponseWriter, r *http.Request) {
 		saveSession(w, r, sess.SessionID(), id)
 		addRemoteAddress(r, id)
 		db.Prepare("delete from signup where validationKey = ?")
-		db.Exec(validationKey);
+		db.Exec(validationKey)
 		http.Redirect(w, r, "/", 302)
+	} else {
+		log.Println(err)
 	}
 }
 
-func CheckLogin (w http.ResponseWriter, r *http.Request) {
+func CheckLogin(w http.ResponseWriter, r *http.Request) {
 	sessCookie, err := r.Cookie("session_id")
 	if err == nil {
 		sess, err := globalSessions.GetSessionStore(sessCookie.Value)
@@ -257,7 +257,7 @@ func CheckLogin (w http.ResponseWriter, r *http.Request) {
 	_, _ = w.Write([]byte("false"))
 }
 
-func GetSessionData (w http.ResponseWriter, r *http.Request) {
+func GetSessionData(w http.ResponseWriter, r *http.Request) {
 	data := strings.Split(r.RequestURI, "/")[2]
 	sessCookie, err := r.Cookie("session_id")
 	if sessCookie.Value != "" && err == nil {
@@ -273,18 +273,18 @@ func GetSessionData (w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func SignOut (w http.ResponseWriter, r *http.Request) {
+func SignOut(w http.ResponseWriter, r *http.Request) {
 	globalSessions.SessionDestroy(w, r)
 }
 
 // Handles password recovery process.
-func DoRecoverPassword(w http.ResponseWriter, r *http.Request) {
+func DoRecoverPassword(_ http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
 }
 
 func init() {
-	db, _ = sql.Open("mysql", myConfig.Db_user + ":" + myConfig.Db_password + "@" + myConfig.Db_address + "/" + myConfig.Db_schema)
+	db, _ = sql.Open("mysql", myConfig.Db_user+":"+myConfig.Db_password+"@"+myConfig.Db_address+"/"+myConfig.Db_schema)
 	err := db.Ping()
 	if err == nil {
 		log.Println("DB responded")
@@ -294,10 +294,10 @@ func init() {
 
 	dbKeepalive := time.NewTicker(time.Minute * 5)
 	go func() {
-		for _ = range dbKeepalive.C {
+		for range dbKeepalive.C {
 			err := db.Ping()
 			if err != nil {
-				log.Println("DB Connection droppped")
+				log.Println("DB Connection dropped")
 			}
 		}
 	}()
@@ -314,4 +314,3 @@ func init() {
 	}
 	go globalSessions.GC()
 }
-

@@ -1,0 +1,7 @@
+name: FlyFishingJournal
+dependencies:
+  browser: any
+  bootjack: any
+  route_hierarchical: any
+  dquery: any
+  http: any

@@ -1,60 +1,61 @@
-<div class="panel panel-primary"  id="panel-info" datafld="trophies.journal_id = journal_entries.id">
+<div class="panel panel-primary" id="new-panel" >
     <div class="panel-heading">
         Add information about your trophy:
     </div>
     <div class="panel-body">
         <div class="col-xs-12 col-md-12 col-lg-4" >
             <div class="input-group">
-                <span class="input-group-addon" id="trophy_species">Fish Species:</span>
-                <input type="text" class="form-control" aria-describedby="trophy_species" name="trophy_species" datafld="trophies.species_id">
+                <label for="species_id" class="input-group-addon" >Fish Species:</label>
+                <input type="text" class="form-control" id="species_id" aria-describedby="trophy_species" >
             </div>
         </div>
         <div class="col-xs-12 col-md-6 col-lg-4" >
             <div class="input-group">
-                <span class="input-group-addon" id="trophy_length">Length:</span>
-                <input type="number" class="form-control" aria-describedby="trophy_length" name="trophy_length" datafld="trophies.length">
+                <label for="length" class="input-group-addon">Length:</label>
+                <input type="number" class="form-control" id="length" aria-describedby="trophy_length" >
             </div>
         </div>
         <div class="col-xs-12 col-md-6 col-lg-4" >
             <div class="input-group">
-                <span class="input-group-addon" id="trophy_girth">Girth:</span>
-                <input type="number" class="form-control" aria-describedby="trophy_girth" name="trophy_girth" datafld="trophies.girth">
+                <label for="girth" class="input-group-addon">Girth:</label>
+                <input type="number" class="form-control" id="girth" aria-describedby="trophy_girth" >
             </div>
         </div>
         <div class="col-xs-12 col-md-6 col-lg-6" >
             <div class="input-group">
-                <span class="input-group-addon" id="trophy_fly">Fly Used:</span>
+                <label for="fly_id" class="input-group-addon" >Fly Used:</label>
+                <input type="text" class="form-control" id="fly_id" aria-describedby="trophy_fly"  >
 
             </div>
         </div>
         <div class="col-xs-12 col-md-6 col-lg-6" >
             <div class="input-group">
-                <span class="input-group-addon" id="trophy_technique">Technique Used:</span>
-                <select class="form-control" aria-describedby="trophy_technique" datasrc="technique_type.technique" name="trophy_technique" datafld="trophies.technique_id">
+                <label for="technique_id" class="input-group-addon" >Technique Used:</label>
+                <select class="form-control"  id="technique_id" aria-describedby="trophy_technique" datasrc="technique_type.technique" >
                     <option value="">Make a selection</option>
                 </select>
             </div>
         </div>
         <div class="col-xs-12 col-md-10 col-lg-10 " >
-            <div class="input-group">
-                <span class="input-group-addon" id="trophy_photo">Add Photos:</span>
-                <div class="form-control" style="display: inline-table;" datafld="pictures.name">
-                    <input type="text" class="form-control" aria-describedby="trophy_photo" id="photo_name" value="Enter photo name">
-                    <ul id="photo_list" class="list-inline">
+            <div class="input-group" >
+                <label for="photo_id" class="input-group-addon" id="trophy_photo">Add Photos:</label>
+                <div class="form-control" style="display: inline-table;" >
+                    <input type="text" class="form-control" aria-describedby="trophy_photo" id="photo_id" value="Enter photo id">
+                    <ul id="photo_list" class="list-inline"  >
 
                     </ul>
                 </div>
             </div>
         </div >
         <div class="col-xs-12 col-md-2 col-lg-2">
-             <span class="btn btn-primary btn-sm btn-file" style="margin-bottom: 10px; width: 100%; padding-top: 5px; padding-bottom: 5px">Add Photo
+             <label for="trophy_upload" class="btn btn-primary btn-sm btn-file" style="margin-bottom: 10px; width: 100%; padding-top: 5px; padding-bottom: 5px">Add Photo
                  <input type="file" accept="image/*" id="trophy_upload">
-             </span>
+             </label>
         </div>
         <div class="col-xs-12 col-md-12 col-lg-12" >
             <div class="input-group">
-                <span class="input-group-addon" id="trophy_comment">Comments:</span>
-                <textarea type="text" class="form-control" aria-describedby="trophy_comment" name="trophy_comment" datafld="trophies.comment" style="resize: vertical;"></textarea>
+                <label for="comment" class="input-group-addon" >Comments:</label>
+                <textarea class="form-control" aria-describedby="trophy_comment" id="comment" ></textarea>
             </div>
         </div>
         <div class="col-xs-12 col-md-12 col-lg-12">

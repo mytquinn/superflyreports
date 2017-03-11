@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'dart:core';
 
 populateSelects() async {
-  var selects = queryAll('select');
+  var selects = querySelectorAll('select');
   for (var select in selects) {
     if (select.attributes.containsKey('datasrc') && select.children.length <= 1) {
       var table = select.attributes['datasrc'].split('.')[0];
@@ -25,46 +25,49 @@ populateSelects() async {
 }
 
 formSubmit (FormElement form) {
+  window.console.debug(form);
+
   ElementList inputs = form.querySelectorAll('[datafld]');
-  window.console.debug(inputs.iterator.moveNext());
+  window.console.debug(inputs);
   int tableCount = 0;
-  String lastTable = inputs[0].attributes['datafld'].split('.')[0] + '-' + tableCount.toString();
-  String table = inputs[0].attributes['datafld'].split('.')[0];
   String field ='';
   String value = '';
+  String table = '';
   bool newTable = false;
   Map formMap = new Map();
   Map tableMap = new Map();
-  window.console.debug(inputs);
-  for (InputElement input in inputs) {
+  for (Element input in inputs) {
     String datafld = input.attributes['datafld'];
-    if(datafld.contains('=')) {
+    if(datafld.contains('table:')) {
+      datafld = datafld.replaceFirst('table:', '');
       table = datafld.split('.')[0];
-      field = datafld.split('=')[0].split('.')[1];
-      value = datafld.split('=')[1];
+      if(datafld.contains('=')) {
+        field = datafld.split('=')[0].split('.')[1];
+        value = datafld.split('=')[1];
+      }
       newTable = true;
 
     } else {
       table = datafld.split('.')[0];
       field = datafld.split('.')[1];
-      value = input.value;
+      if (input.tagName != 'LI') {
+        value = input.innerHtml;
+      } else {
+        value = input.text;
+      }
     }
-    if(table + '-' + tableCount.toString() != lastTable || newTable) {
-      formMap[lastTable.toString()] = tableMap.toString();
+    if(newTable) {
       tableMap.clear();
       tableCount++;
       newTable = false;
-      lastTable = table + '-' + tableCount.toString();
 
-//      window.console.debug(tableMap);
     } else {
        if (value == '') { value = 'null'; }
        tableMap[field] = value;
-
+       window.console.debug(tableMap);
     }
   }
-  formMap[lastTable.toString()] = tableMap.toString();
-  window.console.debug(formMap.toString());
+  formMap[table.toString()] = tableMap.toString();
   final JsonString =  JSON.encode(formMap).toString();
   final JsonFinal = JsonString.replaceAllMapped(new RegExp(r'-\d+'), (match) {
     return '';

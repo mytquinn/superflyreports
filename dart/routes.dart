@@ -40,7 +40,7 @@ newAddressRoute(RouteEvent e) {
   var signinLink = querySelector('#signin');
   signinLink.click();
   var signinWarn = querySelector('#signinWarn');
-  signinWarn.innerHtml = "Your signing in from a new location, please sign in to continue.";
+  signinWarn.innerHtml = "Visiting the site from a new location, please sign in to continue.";
   signinWarn.style.display = "block";
   ModElement signinModal = querySelector('#signinModal');
 }
@@ -50,7 +50,7 @@ addJournalListeners() async {
   var trophyListener = querySelector('#add-trophy-button');
   trophyListener.onClick.listen((e) {
     addPanel('trophy-panel', 'views/journal-trophy.html');
-  });
+  }); 
   var fishListener = querySelector('#add-fish-button');
   fishListener.onClick.listen((e) {
     addPanel('fish-panel', 'views/journal-fish.html');
@@ -66,7 +66,7 @@ addJournalListeners() async {
 setRoute(RouteEvent e) {
   DivElement body = querySelector('#body');
 
-  HttpRequest.getString('views/' + e.route.name + '.html').then((bodyHTML){
+  HttpRequest.getString('/views/' + e.route.name + '.html').then((bodyHTML){
     body.setInnerHtml(bodyHTML, treeSanitizer: NodeTreeSanitizer.trusted);
   }).then((t){
     // Add listeners for journal entry page
@@ -84,17 +84,35 @@ addPanel(String panelId, String page) async {
   Element panelDiv = querySelector('#${panelId}');
   String panelHtml = await HttpRequest.getString(page);
   await panelDiv.appendHtml(panelHtml, treeSanitizer: NodeTreeSanitizer.trusted);
-  // Add functionality for button to remove panel
-  Element newPanel = panelDiv.querySelector('#panel-info');
-  newPanel.id = newPanel.id + "_" + panelDiv.id  + "_" + (panelCount).toString();
-  Element newRemove = querySelector('#remove-panel');
+
+  Element newPanel = panelDiv.querySelector('#new-panel');
+
+  // Set incremented ID for panel
+  newPanel.id = panelDiv.id  + "_" + panelCount.toString();
+
+  window.console.debug(newPanel.id);
+
+  //Update names of the input fields
+  ElementList inputs = newPanel.querySelectorAll('[name]');
+  for (Element input in inputs) {
+    input.id = input.id + "_" + panelCount.toString();
+    window.console.debug(input.id);
+  }
+
+
+  // Add listener to remove panel button
+  Element newRemove = newPanel.querySelector('#remove-panel');
   newRemove.id = newRemove.id + "_" + panelDiv.id + "_" + (panelCount++).toString();
+
+  window.console.debug(newRemove.id);
   newRemove.onClick.listen((e){
     newPanel.remove();
   });
   populateSelects();
+
   // Add upload photo functionality
   if(panelId == 'trophy-panel'){
     addPhotoListener(newPanel.id);
   }
+
 }

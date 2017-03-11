@@ -1,43 +1,43 @@
 
-<form role="form" id="journalEntry">
+<form role="form" id="journalEntry" action="journalSubmit" method="post">
     <div class="panel-group">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 Tell us about your trip.
             </div>
-            <div class="panel-body">
+            <div class="panel-body" >
                 <div class="col-xs-12 col-md-4 col-lg-4" >
                     <div class="input-group">
-                        <span class="input-group-addon" id="state_select">State:</span>
-                        <select class="form-control" aria-describedby="state-select" datasrc="state_type.name" datafld="journal_entries.state_id">
+                        <label class="input-group-addon" for="state_id">State:</label>
+                        <select class="form-control"  id="state_id" aria-describedby="state-select" datasrc="state_type.name" >
                             <option value="">Make a selection</option>
                         </select>
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-8 col-lg-8" >
                     <div class="input-group">
-                        <span class="input-group-addon" id="location">Fishing Spot:</span>
-                        <input type="text" class="form-control" aria-describedby="location" datafld="journal_entries.location_id">
+                        <label for="location_id" class="input-group-addon" >Fishing Spot:</label>
+                        <input type="text" id="location_id" class="form-control" aria-describedby="location" >
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-6 col-lg-6" >
                     <div class="input-group">
-                        <span class="input-group-addon" id="date">Date of Trip:</span>
-                        <input type="date" class="form-control" aria-describedby="date" datafld="journal_entries.date">
+                        <label for="date" class="input-group-addon">Date of Trip:</label>
+                        <input type="date"  id="date" class="form-control" aria-describedby="date" >
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-6 col-lg-6" >
                     <div class="input-group">
-                        <span class="input-group-addon" id="time">Time of Day:</span>
-                        <select class="form-control" aria-describedby="time" datasrc="time_of_day_type.daytime" datafld="journal_entries.time_of_day_id">
+                        <label for="time_of_day_id" class="input-group-addon" >Time of Day:</label>
+                        <select class="form-control" id="time_of_day_id" aria-describedby="time" datasrc="time_of_day_type.daytime" >
                             <option value="">Make a selection</option>
                         </select>
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-12 col-lg-12" >
                     <div class="input-group">
-                        <span class="input-group-addon" id="comment">Comments:</span>
-                        <textarea type="text" class="form-control" aria-describedby="comment" datafld="journal_entries.comment" style="resize:vertical;" ></textarea>
+                        <label for="comment" class="input-group-addon" >Comments:</label>
+                        <textarea id="comment"  class="form-control" aria-describedby="comment"  ></textarea>
                     </div>
                 </div>
             </div>
@@ -50,16 +50,16 @@
 
                 <div class="col-xs-12 col-md-6 col-lg-4" >
                     <div class="input-group">
-                        <span class="input-group-addon" id="weather_condition">Conditions:</span>
-                        <select class="form-control" aria-describedby="weather-condition" datasrc="weather_type.conditions" datafld="journal_entries.weather_id">
+                        <label for="weather_id" class="input-group-addon" >Conditions:</label>
+                        <select class="form-control" id="weather_id" aria-describedby="weather-condition" datasrc="weather_type.conditions" >
                             <option value="">Make a selection</option>
                         </select>
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-6 col-lg-4" >
                     <div class="input-group">
-                        <span class="input-group-addon" id="precipitation">Precipitation:</span>
-                        <select class="form-control" aria-describedby="precipitation" datasrc="precip_type.precipitation" datafld="journal_entries.precip_id">
+                        <label for="precip_id" class="input-group-addon" >Precipitation:</label>
+                        <select class="form-control" id="precip_id" aria-describedby="precipitation" datasrc="precip_type.precipitation" >
                             <option value="">Make a selection</option>
                         </select>
                     </div>
@@ -67,34 +67,34 @@
                 </div>
                 <div class="col-xs-12 col-md-6 col-lg-4" >
                     <div class="input-group">
-                        <span class="input-group-addon" id="air_temp">Air Temp:</span>
-                        <input type="number" class="form-control" aria-describedby="air_temp" datafld="journal_entries.air_temp">
+                        <label for="air_temp" class="input-group-addon" >Air Temp:</label>
+                        <input type="number" id="air_temp" class="form-control" aria-describedby="air_temp" >
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-6 col-lg-6" >
                     <div class="input-group">
-                        <span class="input-group-addon" id="water_temp">Water Temp:</span>
-                        <input type="number" class="form-control" aria-describedby="water_temp" datafld="journal_entries.water_temp">
+                        <label for="water_temp" class="input-group-addon">Water Temp:</label>
+                        <input type="number" id="water_temp" class="form-control" aria-describedby="water_temp" >
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-6 col-lg-6" >
                     <div class="input-group">
-                        <span class="input-group-addon" id="water_clarity">Water Clarity:</span>
-                        <select class="form-control" aria-describedby="water_clarity" datasrc="water_clarity_type.clarity" datafld="journal_entries.clarity_id">
-                            <option value="">Make a selection</optionvalue>
+                        <label for="clarity_id" class="input-group-addon">Water Clarity:</label>
+                        <select class="form-control"  id="clarity_id" aria-describedby="water_clarity" datasrc="water_clarity_type.clarity" >
+                            <option value="">Make a selection</option>
                         </select>
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-6 col-lg-6" >
                     <div class="input-group">
-                        <span class="input-group-addon" id="wind_speed">Wind Speed:</span>
-                        <input type="number" class="form-control" aria-describedby="wind_speed" datafld="journal_entries.wind_speed">
+                        <label for="wind_speed" class="input-group-addon">Wind Speed:</label>
+                        <input type="number" id="wind_speed" class="form-control" aria-describedby="wind_speed" >
                     </div>
                 </div>
                 <div class="col-xs-12 col-md-6 col-lg-6" >
                     <div class="input-group">
-                        <span class="input-group-addon" id="wind_direction">Wind Direction:</span>
-                        <select class="form-control" aria-describedby="water_direction" datasrc="wind_direction_type.direction" datafld="journal_entries.wind_direction_id">
+                        <label for="wind_direction_id" class="input-group-addon">Wind Direction:</label>
+                        <select class="form-control" id="wind_direction_id" aria-describedby="water_direction" datasrc="wind_direction_type.direction" >
                             <option value="">Make a selection</option>
                         </select>
                     </div>
@@ -137,6 +137,6 @@
             </div>
         </div>
 
-        <button type="button"  class="btn btn-primary btn-lg pull-right" style="margin-top: 10px;" id="journal_submit">Submit</button>
+        <button type="submit"  class="btn btn-primary btn-lg pull-right" style="margin-top: 10px;" id="journal_submit">Submit</button>
     </div>
 </form>

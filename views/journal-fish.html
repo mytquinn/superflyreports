@@ -1,4 +1,4 @@
-<div class="panel panel-primary"  id="panel-info" datafld="fish_caught.journal_id = journal_entries.id">
+<div class="panel panel-primary"  id="new-panel" >
     <div class="panel-heading">
         Add information about your fish caught:
     </div>
@@ -6,20 +6,20 @@
 
     <div class="col-xs-12 col-md-8 col-lg-8" >
         <div class="input-group">
-            <span class="input-group-addon" id="fish_species">Fish Species:</span>
-            <input type="text" class="form-control" aria-describedby="fish_species" name="fish_species" datafld="fish_caught.species_id">
+            <label for="fish_species_id" class="input-group-addon" >Fish Species:</label>
+            <input type="text" class="form-control" id="fish_species_id" aria-describedby="fish_species" name="fish_species" >
         </div>
     </div>
         <div class="col-xs-12 col-md-4 col-lg-4" >
         <div class="input-group">
-            <span class="input-group-addon" id="fish_number">Number Caught:</span>
-            <input type="number" class="form-control" aria-describedby="fish_number" name="fish_number" datafld="fish_caught.number">
+            <label for="number" class="input-group-addon" >Number Caught:</label>
+            <input type="number" class="form-control" id="number" aria-describedby="fish_number" name="fish_number" >
         </div>
         </div>
         <div class="col-xs-12 col-md-12 col-lg-12" >
         <div class="input-group">
-            <span class="input-group-addon" id="fly_used">Fly Used:</span>
-            <input type="text" class="form-control" aria-describedby="fly_used" name="fly_used" datafld="fish_caught.fly_id">
+            <label for="fly_id" class="input-group-addon" >Fly Used:</label>
+            <input type="text" class="form-control"  id="fly_id" aria-describedby="fly_used" name="fly_used" >
         </div>
         </div>
         <div class="pull-right">

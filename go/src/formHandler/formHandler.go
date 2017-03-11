@@ -1,20 +1,18 @@
 package formHandler
 
 import (
-	"database/sql"
-	_ "github.com/go-sql-driver/mysql"
-    "log"
 	"config"
+	"database/sql"
+	"encoding/json"
+	_ "github.com/go-sql-driver/mysql"
+	"log"
 	"net/http"
 	"strings"
-	"encoding/json"
 )
 
 var db *sql.DB
 
-
-
-func GetType (w http.ResponseWriter, r *http.Request) {
+func GetType(w http.ResponseWriter, r *http.Request) {
 	typeTable := strings.Split(r.RequestURI, "/")[2]
 	if !strings.Contains(typeTable, "type") {
 		w.WriteHeader(402)
@@ -57,21 +55,20 @@ func GetType (w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Println(err)
 		}
-        w.WriteHeader(302)
+		w.WriteHeader(302)
 		w.Write([]byte(string(jsonData)))
 	} else {
 		log.Println(err)
 	}
 }
 
-func JournalSubmit (w http.ResponseWriter, r *http.Request) {
-
+func JournalSubmit(_ http.ResponseWriter, _ *http.Request) {
+	log.Println("In form submit")
 
 }
 
-
-func init(){
-	db, _ = sql.Open("mysql", myConfig.Db_user + ":" + myConfig.Db_password + "@" + myConfig.Db_address + "/" + myConfig.Db_schema)
+func init() {
+	db, _ = sql.Open("mysql", myConfig.Db_user+":"+myConfig.Db_password+"@"+myConfig.Db_address+"/"+myConfig.Db_schema)
 	err := db.Ping()
 	if err == nil {
 		log.Println("DB responded")

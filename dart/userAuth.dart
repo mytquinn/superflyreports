@@ -7,7 +7,7 @@ import 'package:route_hierarchical/client.dart';
 
 var sessionId = null;
 
-bool checkLogin() async {
+checkLogin() async {
   var client = new BrowserClient();
   if (!document.cookie.contains('userSession_id')) {
        return false;

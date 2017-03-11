@@ -1,14 +1,13 @@
 package main
 
-import
-(
-	"net/http"
-	"io/ioutil"
-	"strings"
-	"log"
-    "userAuth"
+import (
 	"formHandler"
-	)
+	"io/ioutil"
+	"log"
+	"net/http"
+	"strings"
+	"userAuth"
+)
 
 func main() {
 	myMux := http.NewServeMux()
@@ -24,12 +23,11 @@ func main() {
 	myMux.HandleFunc("/getType/", formHandler.GetType)
 	myMux.HandleFunc("/journalSubmit", formHandler.JournalSubmit)
 	//Start server
-	err := http.ListenAndServe(":80", myMux)
-    if err != nil {
+	err := http.ListenAndServe(":8080", myMux)
+	if err != nil {
 		log.Println(err.Error())
 	}
 }
-
 
 func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
@@ -39,15 +37,15 @@ func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	//Ignore path and serve index.html unless it starts with these directories
 	if directory != "" {
-		indexList := map[string] bool {
-			"views": true,
-			"images" : true,
-			"css" : true,
-			"dart" : true,
-			"fonts" : true,
+		indexList := map[string]bool{
+			"views":  true,
+			"images": true,
+			"css":    true,
+			"dart":   true,
+			"fonts":  true,
 		}
 
-		if !indexList[directory]  {
+		if !indexList[directory] {
 			path = "index.html"
 		}
 
@@ -55,10 +53,9 @@ func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		path = "index.html"
 	}
 
-
 	data, err := ioutil.ReadFile(string(path))
 
-    // Set MINE types for file transfer
+	// Set MINE types for file transfer
 	if err == nil {
 		var contentType string
 
@@ -80,9 +77,9 @@ func ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			contentType = "application/vnd.ms-fontobject"
 		} else if strings.HasSuffix(path, ".svg") {
 			contentType = "image/svg+xml"
-		}else if strings.HasSuffix(path, ".ttf") {
+		} else if strings.HasSuffix(path, ".ttf") {
 			contentType = "application/x-font-ttf"
-		}else if strings.HasSuffix(path, ".woff") {
+		} else if strings.HasSuffix(path, ".woff") {
 			contentType = "application/x-font-woff"
 		} else if strings.HasSuffix(path, ".woff2") {
 			contentType = "application/x-font-woff"
