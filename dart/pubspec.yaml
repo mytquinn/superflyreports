@@ -5,3 +5,6 @@ dependencies:
   route_hierarchical: any
   dquery: any
   http: any
+web:
+  compiler:
+   debug: dartdevc

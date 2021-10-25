@@ -68,7 +68,7 @@ func JournalSubmit(_ http.ResponseWriter, _ *http.Request) {
 }
 
 func init() {
-	db, _ = sql.Open("mysql", myConfig.Db_user+":"+myConfig.Db_password+"@"+myConfig.Db_address+"/"+myConfig.Db_schema)
+	db, _ = sql.Open("mysql", myConfig.DbUser+":"+myConfig.DbPassword+"@"+myConfig.DbAddress+"/"+myConfig.DbSchema)
 	err := db.Ping()
 	if err == nil {
 		log.Println("DB responded")

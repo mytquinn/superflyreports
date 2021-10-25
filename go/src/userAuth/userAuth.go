@@ -183,19 +183,42 @@ func DoSignup(w http.ResponseWriter, r *http.Request) {
 
 // Sends verification email to the user when they signup
 func sendVerification(email string, validationKey string) {
-	sg := sendgrid.NewSendGridClient(myConfig.Sg_user, myConfig.Sg_password)
-	message := sendgrid.NewMail()
-	message.AddTo(email)
-	message.SetSubject("Verify your new Super Fly Reports Account")
-	message.SetText("Please follow or copy this link to verify your new account:" + myConfig.Sg_emailLink + validationKey)
-	message.SetHTML(`<html><body>Please follow or copy this link to verify your new account:
-                      <a href='` + myConfig.Sg_emailLink + validationKey +
-		`'>` + myConfig.Sg_emailLink + validationKey + `</a></body></html>`)
-	message.SetFrom("account_verify@superfly.com")
-	if err := sg.Send(message); err == nil {
-		log.Println("Email sent to :", email)
-	} else {
+	request := sendgrid.GetRequest(myConfig.SgAPIKey, "/v3/mail/send", "https://api.sendgrid.com")
+	request.Method = "POST"
+	request.Body = []byte(` {
+	"personalizations": [
+		{
+			"to": [
+				{
+					"email": ` + email + `
+				}
+			],
+			"subject": "Verify your new Super Fly Reports Account"
+		}
+	],
+	"from": {
+		"email": ` + myConfig.SgFromEmail + `
+	},
+	"content": [
+		{
+			"type": "text/plain",
+			"value": "Please follow or copy this link to verify your new account:` +
+		myConfig.SgEmailLink + validationKey + `"
+		},
+		{
+			"type": "text/html",
+			"value": "<html><body>Please follow or copy this link to verify your new account:
+                     <a href='` + myConfig.SgEmailLink + validationKey + `</a></body></html>"
+		}
+	]
+}`)
+
+	if response, err := sendgrid.API(request); err != nil {
 		log.Println(err)
+	} else {
+		log.Println(response.StatusCode)
+		log.Println(response.Body)
+		log.Println(response.Headers)
 	}
 }
 
@@ -218,7 +241,7 @@ func VerifyEmail(w http.ResponseWriter, r *http.Request) {
 		id64, _ := row.LastInsertId()
 		id := int(id64)
 		// Login user and delete signup record
-		var sess session.SessionStore
+		var sess session.Store
 		sessionCookie, err := r.Cookie("session_id")
 		if err == nil {
 			sess, _ = globalSessions.GetSessionStore(sessionCookie.Value)
@@ -284,7 +307,7 @@ func DoRecoverPassword(_ http.ResponseWriter, r *http.Request) {
 }
 
 func init() {
-	db, _ = sql.Open("mysql", myConfig.Db_user+":"+myConfig.Db_password+"@"+myConfig.Db_address+"/"+myConfig.Db_schema)
+	db, _ = sql.Open("mysql", myConfig.DbUser+":"+myConfig.DbPassword+"@"+myConfig.DbAddress+"/"+myConfig.DbSchema)
 	err := db.Ping()
 	if err == nil {
 		log.Println("DB responded")
@@ -302,13 +325,21 @@ func init() {
 		}
 	}()
 
-	anonSessions, err = session.NewManager("memory", `{"cookieName":"anonsession_id","gclifetime":3600}`)
+	var anonConfig session.ManagerConfig
+	anonConfig.CookieName = "anonsession_id"
+	anonConfig.Gclifetime = 3600
+
+	anonSessions, err = session.NewManager("memory", &anonConfig)
 	if err != nil {
 		log.Println(err)
 	}
 	go anonSessions.GC()
 
-	globalSessions, err = session.NewManager("memory", `{"cookieName":"session_id","gclifetime":3600}`)
+	var globalConfig session.ManagerConfig
+	globalConfig.CookieName = "session_id"
+	globalConfig.Gclifetime = 3600
+
+	globalSessions, err = session.NewManager("memory", &globalConfig)
 	if err != nil {
 		log.Println(err)
 	}
